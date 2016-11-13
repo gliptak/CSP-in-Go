@@ -4,20 +4,15 @@ import (
 	"fmt"
 )
 
-func west(c chan rune, r rune) {
+func west(c chan <- rune, r rune) {
 	c <- r
 }
 
-func east(c chan rune, done chan bool) {
-	for {
-		r, more := <-c
-		if more {
-			fmt.Printf("%c\n", r)
-		} else {
-			done <- true
-			return
-		}
+func east(c <- chan rune, done chan bool) {
+	for r:= range(c) {
+		fmt.Printf("%c\n", r)
 	}
+	done <- true
 }
 
 func main() {
